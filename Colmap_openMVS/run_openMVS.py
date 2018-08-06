@@ -34,47 +34,33 @@ assert os.path.exists(openMVS_Texture_bin)
 ##########
 dry_run = True
 
+
+def execute_command(command, dry_run = True):
+    print()
+    print(command)
+    print()
+    if not dry_run:
+        retval = os.system(command)
+        assert retval == 0
+
+
 cmd = openMVS_InterfaceSFM_bin + " -i {} -w {}".format(model_dir, image_dir)
-print()
-print(cmd)
-print()
-if not dry_run:
-    retval = os.system(cmd)
-    assert retval == 0
+execute_command(cmd, dry_run)
 
 mvs_sparse_file = workspace_dir + "/model.mvs"
 cmd = openMVS_Densify_bin + " {} -w {}".format(mvs_sparse_file, image_dir)
-print()
-print(cmd)
-print()
-if not dry_run:
-    retval = os.system(cmd)
-    assert retval == 0
+execute_command(cmd, dry_run)
 
 mvs_dense_file = workspace_dir + "/model_dense.mvs"
 cmd = openMVS_Mesh_bin + " {} -w {}".format(mvs_dense_file, image_dir)
-print()
-print(cmd)
-print()
-if not dry_run:
-    retval = os.system(cmd)
-    assert retval == 0
+execute_command(cmd, dry_run)
 
 unrefined_mesh_file = workspace_dir + "/model_dense_mesh.mvs"
 cmd = openMVS_Refine_bin + " {} -w {} --resolution-level 1".format(unrefined_mesh_file, image_dir)
-print()
-print(cmd)
-print()
-if not dry_run:
-    retval = os.system(cmd)
-    assert retval == 0
+execute_command(cmd, dry_run)
 
 refined_mesh_file = workspace_dir + "/model_dense_mesh_refined.mvs"
 cmd = openMVS_Texture_bin + " {} -w {} --export-type obj".format(refined_mesh_file, image_dir)
-print()
-print(cmd)
-print()
-if not dry_run:
-    retval = os.system(cmd)
-    assert retval == 0
+execute_command(cmd, dry_run)
+
 
