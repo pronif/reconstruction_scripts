@@ -1,2 +1,4 @@
 # Pycharm IDE
 .idea/
+
+/Colmap_openMVS/__pycache__/
