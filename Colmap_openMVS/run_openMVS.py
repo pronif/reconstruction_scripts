@@ -44,6 +44,21 @@ def execute_command(command, dry_run = True):
         assert retval == 0
 
 
+colmap_database_file = workspace_dir + "database.db"
+cmd = "colmap feature_extractor --database_path {} --image_path {} --SiftExtraction.use_gpu 0".format(colmap_database_file, image_dir)
+execute_command(cmd, dry_run)
+
+cmd = "colmap exhaustive_matcher --database_path {} --SIFTMatching.use_gpu 0".format(colmap_database_file)
+execute_command(cmd, dry_run)
+
+colmap_sparse_recon_dir = workspace_dir + "sparse"
+cmd = "colmap mapper --database_path {} --image_path {} --export_path {}".format(colmap_database_file, image_dir, colmap_sparse_recon_dir)
+execute_command(cmd, dry_run)
+
+sparse_recon_nvm = workspace_dir + "model.nvm"
+cmd = "colmap model_converter {} --output_path {} --output_type NVM".format(colmap_sparse_recon_dir + "/0", sparse_recon_nvm)
+execute_command(cmd, dry_run)
+
 cmd = openMVS_InterfaceSFM_bin + " -i {} -w {}".format(model_dir, image_dir)
 execute_command(cmd, dry_run)
 
