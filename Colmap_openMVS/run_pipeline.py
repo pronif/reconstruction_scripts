@@ -36,7 +36,7 @@ def execute_command(command, dry_run=True):
 cmd = "colmap feature_extractor --database_path {} --image_path {} --SiftExtraction.use_gpu 0".format(colmap_database_file, image_dir)
 execute_command(cmd, args.dry_run)
 
-cmd = "colmap exhaustive_matcher --database_path {} --SIFTMatching.use_gpu 0".format(colmap_database_file)
+cmd = "colmap exhaustive_matcher --database_path {} --SiftMatching.use_gpu 0".format(colmap_database_file)
 execute_command(cmd, args.dry_run)
 
 cmd = "colmap mapper --database_path {} --image_path {} --export_path {}".format(colmap_database_file, image_dir, colmap_sparse_recon_dir)

@@ -1,7 +1,7 @@
 import os
 
 # Set the workspace directory (which must contain an images subdirectory)
-workspace_dir = "/home/v4rl/reconstruction/Styrac_Colmap/"
+workspace_dir = "/home/v4rl/reconstruction/lawnmower_fixed_height/"
 
 # Colmap is assumed to be system installed
 # Set the binary folder with the openMVS apps
