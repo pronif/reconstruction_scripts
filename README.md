@@ -1,4 +1,4 @@
-#Scripts for photogrammetry pipelines
+# Scripts to automate photogrammetry pipelines
 
 These scripts automate the process of running reconstruction pipelines.
 
