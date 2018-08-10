@@ -20,10 +20,10 @@ image_dir = config.image_dir
 colmap_database_file = config.workspace_dir + "database.db"
 colmap_sparse_recon_dir = config.workspace_dir + "sparse"
 sparse_nvm_file = config.workspace_dir + "model.nvm"
-sparse_mvs_file = config.workspace_dir + "/model.mvs"
-dense_mvs_file = config.workspace_dir + "/model_dense.mvs"
-unrefined_mesh_file = config.workspace_dir + "/model_dense_mesh.mvs"
-refined_mesh_file = config.workspace_dir + "/model_dense_mesh_refined.mvs"
+sparse_mvs_file = config.workspace_dir + "model.mvs"
+dense_mvs_file = config.workspace_dir + "model_dense.mvs"
+unrefined_mesh_file = config.workspace_dir + "model_dense_mesh.mvs"
+refined_mesh_file = config.workspace_dir + "model_dense_mesh_refined.mvs"
 
 
 def execute_command(command, dry_run=True):
@@ -35,10 +35,10 @@ def execute_command(command, dry_run=True):
         assert retval == 0
 
 # Use no gpu mode in any case for feature extraction because it requires CUDA. The matcher below can use OpenGL
-cmd = "colmap feature_extractor --database_path {} --image_path {} --SiftExtraction.use_gpu 0".format(colmap_database_file, image_dir)
+cmd = config.colmap_bin + " feature_extractor --database_path {} --image_path {} --SiftExtraction.use_gpu 0".format(colmap_database_file, image_dir)
 execute_command(cmd, args.dry_run)
 
-cmd = "colmap exhaustive_matcher --database_path {}".format(colmap_database_file)
+cmd = config.colmap_bin + " exhaustive_matcher --database_path {}".format(colmap_database_file)
 if(args.no_gpu):
     cmd = cmd + " --SiftMatching.use_gpu 0"
 execute_command(cmd, args.dry_run)
@@ -46,10 +46,10 @@ execute_command(cmd, args.dry_run)
 cmd = "mkdir -p " + colmap_sparse_recon_dir
 execute_command(cmd, args.dry_run)
 
-cmd = "colmap mapper --database_path {} --image_path {} --export_path {}".format(colmap_database_file, image_dir, colmap_sparse_recon_dir)
+cmd = config.colmap_bin + " mapper --database_path {} --image_path {} --export_path {}".format(colmap_database_file, image_dir, colmap_sparse_recon_dir)
 execute_command(cmd, args.dry_run)
 
-cmd = "colmap model_converter {} --output_path {} --output_type NVM".format(colmap_sparse_recon_dir + "/0", sparse_nvm_file)
+cmd = config.colmap_bin + " model_converter --input_path {} --output_path {} --output_type NVM".format(colmap_sparse_recon_dir + "/0", sparse_nvm_file)
 execute_command(cmd, args.dry_run)
 
 cmd = config.openMVS_InterfaceSFM_bin + " -i {} -w {}".format(sparse_nvm_file, image_dir)

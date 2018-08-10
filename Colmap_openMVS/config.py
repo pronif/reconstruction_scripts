@@ -1,11 +1,12 @@
 import os
 
 # Set the workspace directory (which must contain an images subdirectory)
-workspace_dir = "/home/v4rl/reconstruction/lawnmower_fixed_height/"
+workspace_dir = "/Users/federicoproni/Desktop/roberts/"
 
 # Colmap is assumed to be system installed
 # Set the binary folder with the openMVS apps
-openMVS_bin = "/home/v4rl/repo/openMVS_build/bin"
+colmap_bin = "/Users/federicoproni/repo/colmap/build/src/exe/colmap"
+openMVS_bin = "/Users/federicoproni/repo/openMVS_build/bin"
 
 # Path assertions for inputs and executables
 image_dir = workspace_dir + "images"
