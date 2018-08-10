@@ -7,8 +7,10 @@ import config
 parser = argparse.ArgumentParser()
 parser.add_argument("--workspace_dir")
 parser.add_argument("--dry_run", dest="dry_run", action="store_true")
+parser.add_argument("--no_gpu", dest="no_gpu", action="store_true")
 parser.set_defaults(workspace_dir=config.workspace_dir)
 parser.set_defaults(dry_run=False)
+parser.set_defaults(no_gpu=False)
 args = parser.parse_args()
 
 #input
@@ -32,11 +34,16 @@ def execute_command(command, dry_run=True):
         retval = os.system(command)
         assert retval == 0
 
-
+# Use no gpu mode in any case for feature extraction because it requires CUDA. The matcher below can use OpenGL
 cmd = "colmap feature_extractor --database_path {} --image_path {} --SiftExtraction.use_gpu 0".format(colmap_database_file, image_dir)
 execute_command(cmd, args.dry_run)
 
-cmd = "colmap exhaustive_matcher --database_path {} --SiftMatching.use_gpu 0".format(colmap_database_file)
+cmd = "colmap exhaustive_matcher --database_path {}".format(colmap_database_file)
+if(args.no_gpu):
+    cmd = cmd + " --SiftMatching.use_gpu 0"
+execute_command(cmd, args.dry_run)
+
+cmd = "mkdir -p " + colmap_sparse_recon_dir
 execute_command(cmd, args.dry_run)
 
 cmd = "colmap mapper --database_path {} --image_path {} --export_path {}".format(colmap_database_file, image_dir, colmap_sparse_recon_dir)
