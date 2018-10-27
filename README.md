@@ -1,16 +1,17 @@
-# Scripts to automate photogrammetry pipelines
-
-These scripts automate the process of running reconstruction pipelines.
+# Reconstruction scripts
+These scripts automate the process of running full reconstruction pipelines.
+The input of the pipeline is in general a set of images and the output a 3D mesh.
 
 Some steps common to all pipelines are: Structure From Motion, Multi View Stereo,
- mesh reconstruction, mesh cleaning and optionally texturing. 
+ mesh reconstruction, mesh cleaning. 
  
 ## Colmap + openMVS
 Colmap provides a complete reconstruction pipeline, but for dense reconstruction requires a CUDA enabled GPU which I do not have at the moment.
-Therefore I use it until sparse reconstruction.
+Therefore I use it until sparse reconstruction and then use OpenMVS which is the best tool for dense reconstruction, according to benchmarks. 
 
-OpenMVS is the best tool for dense reconstruction, according to benchmarks. 
-It is especially good to be run in an automated way.
+### Installation 
+See the install instruction of the respective web pages for info on how to install Colmap and openMVS.
+The scripts where tested on MacOs High Sierra and Ubuntu 16.
 
 ### How to use
 Set the configs in *Colmap_openMVS/config.py* and run with
@@ -19,8 +20,5 @@ python3 run_pipeline.py
 ```
 
 ## MVE
-One of the few open source projects that offer the whole pipeline in one solution.
-
-The quality is not the best achievable however (based on experience and benchmarks)
-
-
+Multi-View Environment offers a full reconstruction pipeline, however the quality is not anymore at the state of the art.
+See the *MVE/README.md* for info on how to run.
